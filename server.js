@@ -29,6 +29,10 @@ app.get("/app/", (req, res, next) => {
 
 // Define other CRUD API endpoints using express.js and better-sqlite3
 // CREATE a new user (HTTP method POST) at endpoint /app/new/
+app.get("/app/users", (req, res) => {	
+	const stmt = db.prepare("INSERT INTO userinfo (user, pass) VALUES (?, ?)").all();
+	res.status(200).json(stmt);
+});
 
 // READ a list of all users (HTTP method GET) at endpoint /app/users/
 app.get("/app/users", (req, res) => {	
@@ -37,10 +41,22 @@ app.get("/app/users", (req, res) => {
 });
 
 // READ a single user (HTTP method GET) at endpoint /app/user/:id
+app.get("/app/users", (req, res) => {	
+	const stmt = db.prepare("SELECT * FROM userinfo WHERE id = 2").all();
+	res.status(200).json(stmt);
+});
 
 // UPDATE a single user (HTTP method PATCH) at endpoint /app/update/user/:id
+app.get("/app/users", (req, res) => {	
+	const stmt = db.prepare("UPDATE userinfo SET user = COALESCE(?,user), pass = COALESCE(?,pass) WHERE id = ?").all();
+	res.status(200).json(stmt);
+});
 
 // DELETE a single user (HTTP method DELETE) at endpoint /app/delete/user/:id
+app.get("/app/users", (req, res) => {	
+	const stmt = db.prepare("DELETE FROM userinfo WHERE id = ?").all();
+	res.status(200).json(stmt);
+});
 
 // Default response for any other request
 app.use(function(req, res){
