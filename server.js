@@ -19,7 +19,7 @@ HTTP_PORT = 5000
 
 // Start server
 app.listen(HTTP_PORT, () => {
-    console.log("Server running on port %PORT%".replace("%PORT%",HTTP_PORT))
+    //console.log("Server running on port %PORT%".replace("%PORT%",HTTP_PORT))
 });
 // READ (HTTP method GET) at root endpoint /app/
 app.get("/app/", (req, res, next) => {
@@ -54,8 +54,9 @@ app.patch("/app/update/user/:id", (req, res) => {
 
 // DELETE a single user (HTTP method DELETE) at endpoint /app/delete/user/:id
 app.delete("/app/delete/user/:id", (req, res) => {
-	const stmt = db.prepare("UPDATE userinfo SET user = COALESCE(?,user), pass = COALESCE(?,pass) WHERE id = ?").all();
-	res.status(200).json(stmt);
+	const stmt = db.prepare("DELETE FROM userinfo WHERE id = ?").all();
+	const fuck = stmt.run(req.params.id)
+	res.status(200).json(fuck);
 });
 
 // Default response for any other request
