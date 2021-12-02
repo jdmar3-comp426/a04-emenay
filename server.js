@@ -7,10 +7,6 @@ var db = require("./database.js");
 // Require md5 MODULE
 var md5 = require("md5");
 
-// Require a middleware extension for express
-var bodyParser = require("body-parser");
-const { unsafeMode } = require("./database.js");
-
 // Make Express use its own built-in body parser
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -45,7 +41,7 @@ app.get("/app/users", (req, res) => {
 
 // READ a single user (HTTP method GET) at endpoint /app/user/:id
 app.get("/app/users:id", (req, res) => {	
-	const stmt = db.prepare("SELECT pass, user FROM userinfo WHERE id = ?");
+	const stmt = db.prepare("SELECT user, pass FROM userinfo WHERE id = ?");
 	const i = stmt.get(req.params.id)
 	var v = {id: parseInt(req.params.id), user: i["user"], pass: i["pass"]}
 	res.status(200).json(v)
