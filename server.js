@@ -41,10 +41,8 @@ app.get("/app/users", (req, res) => {
 
 // READ a single user (HTTP method GET) at endpoint /app/user/:id
 app.get("/app/users/:id", (req, res) => {	
-	const stmt = db.prepare("SELECT user, pass FROM userinfo WHERE id = ?");
-	const i = stmt.get(req.params.id)
-	var v = {id: parseInt(req.params.id), user: i["user"], pass: i["pass"]}
-	res.status(200).json(v)
+	const stmt = db.prepare("SELECT * FROM userinfo WHERE id = 2").all();
+	res.status(200).json(stmt)
 });
 
 // UPDATE a single user (HTTP method PATCH) at endpoint /app/update/user/:id
